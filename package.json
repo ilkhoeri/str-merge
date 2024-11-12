@@ -1,0 +1,55 @@
+{
+  "name": "str-merge",
+  "version": "1.0.0",
+  "description": "String utilities and conflict conditionals (includes tailwind-merge).",
+  "author": "Ilham Khoeri <ilkhoeri@gmail.com>",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "source": "src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "main": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ilkhoeri/string-merge.git"
+  },
+  "homepage": "https://github.com/ilkhoeri/string-merge#readme",
+  "bugs": {
+    "url": "https://github.com/ilkhoeri/string-merge/issues"
+  },
+  "keywords": [
+    "string",
+    "variant",
+    "classes",
+    "className",
+    "classNames",
+    "tailwind-merge",
+    "classList",
+    "twMerge",
+    "clsx",
+    "css",
+    "react"
+  ],
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "lint": "eslint src --cache",
+    "format": "prettier src",
+    "format:check": "prettier --check src",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run lint && npm run format:check && npm run typecheck"
+  },
+  "peerDependencies": {},
+  "dependencies": {
+    "tailwind-merge": "^2.5.4"
+  },
+  "devDependencies": { "prettier": "^3.3.3" }
+}
