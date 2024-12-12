@@ -1,6 +1,6 @@
 {
   "name": "str-merge",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "String utilities and conflict conditionals (includes tailwind-merge).",
   "author": "Ilham Khoeri <ilkhoeri@gmail.com>",
   "license": "MIT",
@@ -20,11 +20,11 @@
   "types": "dist/types/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ilkhoeri/string-merge.git"
+    "url": "https://github.com/ilkhoeri/str-merge.git"
   },
-  "homepage": "https://github.com/ilkhoeri/string-merge#readme",
+  "homepage": "https://github.com/ilkhoeri/str-merge#readme",
   "bugs": {
-    "url": "https://github.com/ilkhoeri/string-merge/issues"
+    "url": "https://github.com/ilkhoeri/str-merge/issues"
   },
   "keywords": [
     "string",

@@ -1,25 +1,31 @@
-# string-merge
+# str-merge
 
 String utilities and conflict conditionals (includes tailwind-merge).
+
+<div align="left">
+  <a href="https://www.npmjs.com/package/str-merge">
+    <img src="https://badgen.net/npm/v/str-merge" alt="version" />
+  </a>
+</div>
 
 ## Installation
 
 using [bun](https://bun.sh/)
 
 ```cirru
-bun add string-merge
+bun add str-merge
 ```
 
 using [pnpm](https://pnpm.io/)
 
 ```cirru
-pnpm add string-merge
+pnpm add str-merge
 ```
 
-using [npm](https://www.npmjs.com/package/string-merge)
+using [npm](https://www.npmjs.com/package/str-merge)
 
 ```cirru
-npm i string-merge
+npm i str-merge
 ```
 
 ## Usage
@@ -27,7 +33,7 @@ npm i string-merge
 ### cnx
 
 ```js
-import { cnx } from "string-merge";
+import { cnx } from "str-merge";
 
 // allows receiving Arrays and Objects
 const className = cnx(["", baz, foo !== "foo" && bar], { "": !props }, "");
@@ -52,7 +58,7 @@ cnx("foo", [1 && "bar", { baz: false, bat: null }, ["hello", ["world"]]], "cya")
 
 ### cn
 ```js
-import { cn } from "string-merge";
+import { cn } from "str-merge";
 
 <div
   className={
@@ -67,7 +73,7 @@ import { cn } from "string-merge";
 ### cvx
 
 ```js
-import { cvx, twMerge, type VariantsType } from "string-merge";
+import { cvx, twMerge, rem, type VariantsType } from "str-merge";
 
 const classes = cvx({
   assign: "bg-muted rounded-sm px-2 border flex items-center justify-center", // assign values that is definitely returned
@@ -115,7 +121,7 @@ export function CvxDemo(props: ClnProps) {
   const { className, color, size, variant, unstyled } = props;
   return (
     <div className="flex flex-col gap-4">
-      <div {...clN(props)}>MY COMPONENT</div>
+      <div {...clN(props)} style={{ width: rem(32), height: rem("32px")}}>MY COMPONENT</div>
 
       <div className={classes()}>MY COMPONENT</div>
 
@@ -136,11 +142,11 @@ export function CvxDemo(props: ClnProps) {
 
 ## Link
 
-[Repository](https://github.com/ilkhoeri/string-merge)
+[Repository](https://github.com/ilkhoeri/str-merge)
 [Documentation](https://oeri.vercel.app)
 
 ## License
 
 MIT License
 
-[© ilkhoeri](https://github.com/ilkhoeri/string-merge/blob/main/LICENSE)
+[© ilkhoeri](https://github.com/ilkhoeri/str-merge/blob/main/LICENSE)
