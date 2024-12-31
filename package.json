@@ -1,6 +1,6 @@
 {
   "name": "str-merge",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "String utilities and conflict conditionals (includes tailwind-merge).",
   "author": "Ilham Khoeri <ilkhoeri@gmail.com>",
   "license": "MIT",
@@ -44,6 +44,7 @@
     "lint": "eslint src --cache",
     "format": "prettier src",
     "format:check": "prettier --check src",
+    "format:write": "prettier --write src",
     "typecheck": "tsc --noEmit",
     "test": "npm run lint && npm run format:check && npm run typecheck"
   },
@@ -51,5 +52,17 @@
   "dependencies": {
     "tailwind-merge": "^2.5.4"
   },
-  "devDependencies": { "prettier": "^3.3.3" }
+  "devDependencies": {
+    "prettier": "^3.3.3"
+  },
+  "prettier": {
+    "tabWidth": 2,
+    "printWidth": 160,
+    "semi": true,
+    "useTabs": false,
+    "singleQuote": true,
+    "bracketSpacing": true,
+    "arrowParens": "avoid",
+    "trailingComma": "none"
+  }
 }

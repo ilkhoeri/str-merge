@@ -4,20 +4,17 @@ export type ClassArray = ClassValue[];
 
 export function cnx(...inputs: ClassValue[]): string {
   const classes: string[] = [];
-
-  inputs.forEach((input) => {
+  inputs.forEach(input => {
     if (!input) return;
-
-    if (typeof input === "string" || typeof input === "number") {
+    if (typeof input === 'string' || typeof input === 'number') {
       classes.push(String(input));
     } else if (Array.isArray(input)) {
       classes.push(cnx(...input));
-    } else if (typeof input === "object") {
+    } else if (typeof input === 'object') {
       for (const [key, value] of Object.entries(input)) {
         if (value) classes.push(key);
       }
     }
   });
-
-  return classes.join(" ");
+  return classes.join(' ');
 }
