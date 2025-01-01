@@ -1,7 +1,7 @@
 type ExcludeKeys = 'defaultVariants' | '';
 type Undefined<T> = T extends undefined ? never : T;
 
-export type infer<T> = T extends (...args: any[]) => infer R ? R : never;
+export type cvxProps<T extends (...keys: any) => any> = Omit<Undefined<Parameters<T>[0]>, ExcludeKeys>;
 export type cvxMap = { [key: string]: { [key: string]: string } };
 export type cvxVariant<T extends cvxMap> = { [K in keyof T]?: keyof T[K] };
 export type cvxKeys<T extends cvxMap> = {
@@ -9,7 +9,6 @@ export type cvxKeys<T extends cvxMap> = {
   variants: T;
   defaultVariants?: cvxVariant<T>;
 };
-export type cvxVariants<T extends (...keys: any) => any> = Omit<Undefined<Parameters<T>[0]>, ExcludeKeys>;
 
 export function cvx<T extends cvxMap>(keys: cvxKeys<T>) {
   return (variant: cvxVariant<T> = {}) => {

@@ -10,18 +10,56 @@ export function px(value: unknown): string | number {
     if (transformedValue.includes('calc') || transformedValue.includes('var')) {
       return transformedValue;
     }
-    if (transformedValue.includes('px')) {
-      return Number(transformedValue.replace('px', ''));
+    const unitMap: Record<string, number> = { px: 1, rem: 16, em: 16 };
+    const matchedUnit = Object.keys(unitMap).find(unit => transformedValue.includes(unit));
+    if (matchedUnit) {
+      return parseFloat(transformedValue.replace(matchedUnit, '')) * unitMap[matchedUnit];
     }
-    if (transformedValue.includes('rem')) {
-      return Number(transformedValue.replace('rem', '')) * 16;
-    }
-    if (transformedValue.includes('em')) {
-      return Number(transformedValue.replace('em', '')) * 16;
-    }
-    return Number(transformedValue);
+    const numericValue = Number(transformedValue);
+    return !isNaN(numericValue) ? numericValue : NaN;
   }
   return NaN;
+}
+
+export function createConverter(units: string, { shouldScale = false } = {}) {
+  const convertSingleValue = (value: string | number): string => {
+    if (typeof value === 'number') {
+      const result = `${value / 16}${units}`;
+      return shouldScale ? scaleRem(result) : result;
+    }
+    const replaced = value.replace('px', '');
+    if (!isNaN(Number(replaced))) {
+      const result = `${Number(replaced) / 16}${units}`;
+      return shouldScale ? scaleRem(result) : result;
+    }
+    return value;
+  };
+
+  function converter(value: unknown): string {
+    if (value === 0 || value === '0') {
+      return `0${units}`;
+    }
+    if (typeof value === 'string') {
+      if (value === '' || value.startsWith('calc(') || value.startsWith('clamp(') || value.includes('rgba(')) {
+        return value;
+      }
+      const delimiters = [',', ' '];
+      for (const delimiter of delimiters) {
+        if (value.includes(delimiter)) {
+          return value
+            .split(delimiter)
+            .map(val => convertSingleValue(val.trim()))
+            .join(delimiter);
+        }
+      }
+      return convertSingleValue(value);
+    }
+    if (Array.isArray(value)) {
+      return value.map(val => converter(val)).join(' ');
+    }
+    return `${value}`;
+  }
+  return converter;
 }
 
 function scaleRem(value: string): string {
@@ -30,56 +68,13 @@ function scaleRem(value: string): string {
   }
   return value;
 }
-
-function createConverter(units: string, { shouldScale = false } = {}) {
-  function converter(value: unknown): string {
-    if (value === 0 || value === '0') {
-      return `0${units}`;
-    }
-    if (typeof value === 'number') {
-      const val = `${value / 16}${units}`;
-      return shouldScale ? scaleRem(val) : val;
-    }
-    if (typeof value === 'string') {
-      // Number("") === 0 so exit early
-      if (value === '') {
-        return value;
-      }
-      if (value.startsWith('calc(') || value.startsWith('clamp(') || value.includes('rgba(')) {
-        return value;
-      }
-      if (value.includes(',')) {
-        return value
-          .split(',')
-          .map(val => converter(val))
-          .join(',');
-      }
-      if (value.includes(' ')) {
-        return value
-          .split(' ')
-          .map(val => converter(val))
-          .join(' ');
-      }
-      if (value.includes(units)) {
-        return shouldScale ? scaleRem(value) : value;
-      }
-      const replaced = value.replace('px', '');
-      if (!Number.isNaN(Number(replaced))) {
-        const val = `${Number(replaced) / 16}${units}`;
-        return shouldScale ? scaleRem(val) : val;
-      }
-    }
-    return value as string;
-  }
-  return converter;
-}
-
 function getTransformedScaledValue(value: unknown) {
   if (typeof value !== 'string') {
     return value;
   }
-  return value
-    .match(/^calc\((.*?)\)$/)?.[1]
-    .split('*')[0]
-    .trim();
+  const calcMatch = value.match(/^calc\((.*?)\)$/);
+  if (calcMatch) {
+    return calcMatch[1].split('*')[0]?.trim() ?? value;
+  }
+  return value;
 }

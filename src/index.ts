@@ -1,7 +1,10 @@
 export * from 'tailwind-merge';
 export { cn, merge } from './merge';
 export { cnx } from './cnx';
-export type { ClassArray, ClassDictionary, ClassValue } from './cnx';
+export type { cnxValues } from './cnx';
 export { cvx } from './cvx';
-export type { infer, cvxMap, cvxKeys, cvxVariant, cvxVariants } from './cvx';
+export type { cvxKeys, cvxVariant, cvxProps } from './cvx';
 export { rem, em, px } from './converters';
+export { ocx } from './ocx';
+export type { ocxValue, ocxValues } from './ocx';
+export type { infer } from './types';

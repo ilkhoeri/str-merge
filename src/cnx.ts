@@ -1,20 +1,21 @@
-export type ClassValue = ClassArray | ClassDictionary | string | number | null | boolean | undefined;
-export type ClassDictionary = Record<string, any>;
-export type ClassArray = ClassValue[];
+export type cnxMap = Record<string, any>;
+export type cnxValues = cnxMap | cnxMap[] | cnxValues[] | string | number | null | boolean | undefined | (() => cnxValues);
 
-export function cnx(...inputs: ClassValue[]): string {
-  const classes: string[] = [];
-  inputs.forEach(input => {
-    if (!input) return;
-    if (typeof input === 'string' || typeof input === 'number') {
-      classes.push(String(input));
-    } else if (Array.isArray(input)) {
-      classes.push(cnx(...input));
-    } else if (typeof input === 'object') {
-      for (const [key, value] of Object.entries(input)) {
-        if (value) classes.push(key);
-      }
-    }
-  });
-  return classes.join(' ');
+export function cnx(...inputs: cnxValues[]): string {
+  return inputs
+    .reduce<string[]>((acc, input) => {
+      if (!input) return acc;
+      if (typeof input === 'string' || typeof input === 'number') return [...acc, String(input)];
+      if (Array.isArray(input)) return [...acc, cnx(...input)];
+      if (typeof input === 'object')
+        return [
+          ...acc,
+          ...Object.entries(input)
+            .filter(([, value]) => Boolean(value))
+            .map(([key]) => key)
+        ];
+      if (typeof input === 'function') return [...acc, cnx(input())];
+      return acc;
+    }, [])
+    .join(' ');
 }
