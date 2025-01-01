@@ -21,43 +21,44 @@ export function px(value: unknown): string | number {
   return NaN;
 }
 
-export function createConverter(units: string, { shouldScale = false } = {}) {
-  const convertSingleValue = (value: string | number): string => {
-    if (typeof value === 'number') {
-      const result = `${value / 16}${units}`;
-      return shouldScale ? scaleRem(result) : result;
-    }
-    const replaced = value.replace('px', '');
-    if (!isNaN(Number(replaced))) {
-      const result = `${Number(replaced) / 16}${units}`;
-      return shouldScale ? scaleRem(result) : result;
-    }
-    return value;
-  };
-
+function createConverter(units: string, { shouldScale = false } = {}) {
   function converter(value: unknown): string {
     if (value === 0 || value === '0') {
       return `0${units}`;
     }
+    if (typeof value === 'number') {
+      const val = `${value / 16}${units}`;
+      return shouldScale ? scaleRem(val) : val;
+    }
     if (typeof value === 'string') {
-      if (value === '' || value.startsWith('calc(') || value.startsWith('clamp(') || value.includes('rgba(')) {
+      if (value === '') {
         return value;
       }
-      const delimiters = [',', ' '];
-      for (const delimiter of delimiters) {
-        if (value.includes(delimiter)) {
-          return value
-            .split(delimiter)
-            .map(val => convertSingleValue(val.trim()))
-            .join(delimiter);
-        }
+      if (value.startsWith('calc(') || value.startsWith('clamp(') || value.includes('rgba(')) {
+        return value;
       }
-      return convertSingleValue(value);
+      if (value.includes(',')) {
+        return value
+          .split(',')
+          .map(val => converter(val))
+          .join(',');
+      }
+      if (value.includes(' ')) {
+        return value
+          .split(' ')
+          .map(val => converter(val))
+          .join(' ');
+      }
+      if (value.includes(units)) {
+        return shouldScale ? scaleRem(value) : value;
+      }
+      const replaced = value.replace('px', '');
+      if (!Number.isNaN(Number(replaced))) {
+        const val = `${Number(replaced) / 16}${units}`;
+        return shouldScale ? scaleRem(val) : val;
+      }
     }
-    if (Array.isArray(value)) {
-      return value.map(val => converter(val)).join(' ');
-    }
-    return `${value}`;
+    return value as string;
   }
   return converter;
 }

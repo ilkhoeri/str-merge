@@ -1,6 +1,6 @@
 {
   "name": "str-merge",
-  "version": "1.0.55",
+  "version": "1.0.6",
   "description": "String utilities and conflict conditionals (includes tailwind-merge).",
   "author": "Ilham Khoeri <ilkhoeri@gmail.com>",
   "license": "MIT",
