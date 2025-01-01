@@ -1,1 +1,1 @@
-export type infer<T> = T extends (...args: any[]) => infer R ? R : never;
+export type inferType<T> = T extends (...args: any[]) => infer R ? R : never;

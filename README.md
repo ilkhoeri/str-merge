@@ -150,10 +150,10 @@ If you are using the vscode editor, enable autocomplete for the [`tailwindcss`](
 Merge with tailwind-merge
 
 ```tsx
-import { cnx, type ClassValue } from 'str-merge';
+import { cnx, type cnxValues } from 'str-merge';
 import { twMerge } from 'tailwind-merge';
 
-function cn(...inputs: ClassValue[]) {
+function cn(...inputs: cnxValues[]) {
   return twMerge(cnx(...inputs));
 }
 ```
@@ -241,14 +241,9 @@ export function CvxDemo(props: ClnProps) {
   const { className, color, size, variant, unstyled } = props;
   return (
     <div className="flex flex-col gap-4">
-      <div {...clN(props)} style={{ width: rem(32), height: rem('32px') }}>
-        COMPONENT
-      </div>
-
+      <div {...clN(props)} style={{ width: rem(32), height: rem('32px') }}>COMPONENT</div>
       <div className={classes()}>COMPONENT</div>
-
       <div className={classes({ color: 'red', size: 'lg' })}>COMPONENT</div>
-
       <div className={twMerge(classes({ color: 'red', size: 'md' }), 'bg-black/60 dark:bg-white/60 text-white dark:text-black font-extrabold border-0')}>
         COMPONENT
       </div>

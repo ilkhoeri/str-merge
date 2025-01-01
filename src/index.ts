@@ -7,4 +7,4 @@ export type { cvxKeys, cvxVariant, cvxProps } from './cvx';
 export { rem, em, px } from './converters';
 export { ocx } from './ocx';
 export type { ocxValue, ocxValues } from './ocx';
-export type { infer } from './types';
+export type { inferType } from './types';
